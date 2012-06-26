@@ -1,0 +1,38 @@
+Clone:
+=====
+* git clone git@github.com:usv299792458/configs.git 1111.configs.git
+* cd 0000.git
+* <insert here 'Config' section below>
+* Edit files in this directory, then stage, then simply 'git push' / 'git pull'
+
+Setup:
+=====
+* mkdir 0000.git
+* cd 0000.git
+* git init
+* <insert here 'Config' section below>
+* <write this content to README>
+* git add README
+* git commit -m 'first commit'
+* git remote add origin git@github.com:usv299792458/configs.git
+* git push -u origin master # -u here is needed for 'git pull' to work.
+* Edit files in this directory, then stage, then simply 'git push' / 'git pull'
+
+Config:
+=====
+* git config user.name "Individual User"
+* git config user.email usv299792458@gmail.com
+* git config core.editor nano
+* git config alias.rs 'reset HEAD' # 'git rs file' - unstage a file
+* git config --add color.ui true
+* git config alias.ci commit
+* git config alias.st status
+* git config alias.lg 'log -p'
+* git config alias.co 'checkout --' # 'git co file' - discard changes in working directory
+* git config alias.wdiff 'diff --color-words'
+* echo export LESS=R >> ~/.bashrc # enable mouse scroll in pager; drawback: launches pager even on small output
+* git config alias.sdiff 'diff --staged'
+* git config alias.swdiff 'diff --staged --color-words'
+* git config alias.adiff 'diff HEAD'
+* git config alias.awdiff 'diff HEAD --color-words'
+* git config alias.uc 'reset --soft HEAD^' # undo last commit
