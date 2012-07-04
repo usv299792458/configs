@@ -1,0 +1,26 @@
+#!/bin/bash
+NEW=$3
+OLD=$4
+NUM=49
+STATUS="yes"
+if [ $3 -eq "0" ]; then
+  NUM=48
+  STATUS="no"
+fi
+cat <<EOF | sed 's/$/\r/' | nc -s 192.168.40.199 -q0 192.168.40.186 5060
+NOTIFY sip:$2@192.168.40.186;transport=tcp SIP/2.0
+To: <sip:$2@192.168.40.186;transport=tcp>
+From: "Unknown" <sip:Unknown@192.168.40.199>;tag=as3ea038fb
+Contact: <sip:Unknown@192.168.40.199>
+Call-ID: 49d0d1f601165aa061ad072220934fae@192.168.40.199
+Via: SIP/2.0/TCP 192.168.40.199:5060;branch=z9hG4bK2b1e182e;rport
+CSeq: 102 NOTIFY
+User-Agent: Unknown PBX 1.6.2.9-2+squeeze1
+Max-Forwards: 70
+Event: message-summary
+Content-Type: application/simple-message-summary
+Content-Length: $NUM
+
+Messages-Waiting: $STATUS
+Voice-Message: 1/1 (0/0)
+EOF
