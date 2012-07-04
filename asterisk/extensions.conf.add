@@ -1,0 +1,165 @@
+[my-common]
+
+;========== SayUnixTime ===============
+
+exten => 2993,1,Answer()
+exten => 2993,n,Wait(1)
+exten => 2993,n,SayUnixTime(,,kM)
+exten => 2993,n,HangUp()
+
+;========== Справочник ================
+
+;exten => 2995,1,Answer()
+;exten => 2995,n,Background(pbdirectory/welcome-to-phonebook)
+;exten => 2995,n,SayNumber(9)
+;exten => 2995,n,SayNumber(42)
+;exten => 2995,n,SayNumber(0)
+;exten => 2995,n,SayNumber(8)
+;exten => 2995,n,PlayBack(vm-goodbye)
+;exten => 2995,n,HangUp()
+
+exten => 2994,1,AGI(/home/user/conference.pl)
+exten => 2994,n,Answer()
+exten => 2994,n,ConfBridge(1234,s)
+;exten => 2994,n,Hangup()
+
+;======== ReceiveFAX ============
+
+exten => 2222,1,Answer()
+exten => 2222,2,Wait(5)
+
+exten => 2222,3,NoOp(<<aon = ${CALLERID(num)} ext = ${EXTEN}>>)
+exten => 2222,n,Set(FAXFILE=fax-${CALLERID(num)}-${EXTEN}-${STRFTIME(${EPOCH},,%H=%M=%S-%d%m%Y)}.tiff)
+exten => 2222,n,Set(FAXOPT(ecm)=yes)
+exten => 2222,n,Set(FAXOPT(headerinfo)=FAX SERVER)
+exten => 2222,n,Set(FAXOPT(localstationid)=83916992222)
+exten => 2222,n,Set(FAXOPT(maxrate)=14400)
+exten => 2222,n,Set(FAXOPT(minrate)=2400)
+
+exten => 2222,n,Background(/home/user/2)
+exten => 2222,n,WaitExten(5)
+
+exten => i,1,Goto(2222,3)
+exten => t,1,Goto(2222,3)
+
+exten => 0,1,ReceiveFAX(/var/local/fax_to_email/${FAXFILE})
+exten => 0,n,Goto(2222,3)
+exten => 1,1,Dial(SIP/${CALLERID(num)}@ses)
+exten => 1,n,Hangup()
+
+;========== Проверка почты не со своего телефона ============
+
+exten => 2999,1,Answer()
+exten => 2999,n,VoiceMailMain(@my-common)
+exten => 2999,n,HangUp()
+
+;========== Проверка почты со своего телефона + cover ==============================
+
+exten => 2997,1,NoOp(<<Ringing>>)
+exten => 2997,n,Set(ANI=${CALLERID(num)})             ;Get Number A
+exten => 2997,n,GotoIF($["${ANI}"!="${FILTER(0-9,${ANI})}"]?999)   ;Check if Calling number is correct
+exten => 2997,n,NoOp(<<Number A = ${ANI}>>)
+exten => 2997,n,Set(RDN=${CUT(CUT(SIP_HEADER(Diversion),@,1),:,2)})      ;Get Redirected Dialed Number
+exten => 2997,n,GotoIf($["${RDN}"=""]?888)                               ;If No, Goto Inbox
+exten => 2997,n,NoOp(<<Redirected Dialed Number = ${RDN}>>)
+exten => 2997,n,GotoIf(${MAILBOX_EXISTS(${RDN}@my-common)}?100)                ;If Mailbox Exists, Goto
+exten => 2997,n,PlayBack(vm-check-mail)
+exten => 2997,n,PlayBack(vm-isunavail)
+exten => 2997,n,Congestion()                                               ;If No, Congest
+exten => 2997,n,Hangup()
+;
+exten => 2997,100,Verbose(2, XXXYYY: ${DIALSTATUS})
+;Voicemail(201@default,${IF($[${DIALSTATUS} = BUSY]?b:u)})
+exten => 2997,n,Voicemail(${RDN}@my-common)                          ;Leave Mail
+exten => 2997,n,Playback(vm-goodbye)
+exten => 2997,n,Hangup()
+;
+exten => 2997,888,GotoIf(${MAILBOX_EXISTS(${ANI}@my-common)}?900)
+exten => 2997,n,PlayBack(vm-check-mail)
+exten => 2997,n,PlayBack(vm-isunavail)
+exten => 2997,n,Congestion()                                               ;If No, Congest
+exten => 2997,n,Hangup()
+;
+exten => 2997,900,VoicemailMain(${ANI}@my-common)                      ;Goto to VM Inbox
+exten => 2997,n,Hangup()
+;
+exten => 2997,999,Hangup()
+
+;===================== say AON ==================
+
+exten => 2998,1,Answer()
+exten => 2998,2,Set(ANI=${CALLERID(num)})
+exten => 2998,3,Wait(1)
+
+exten => 2998,n,GotoIf($["${LEN(${ANI})}"="10"]?:490)
+exten => 2998,n,GotoIf($["${ANI:0:1}"="0"]?:410)
+exten => 2998,n,SayDigits(${ANI:0:3})
+exten => 2998,n,Goto(2998,420)
+exten => 2998,410,SayNumber(${ANI:0:3})
+exten => 2998,n,Goto(2998,420)
+exten => 2998,420,GotoIf($["${ANI:3:1}"="0"]?:430)
+exten => 2998,n,SayDigits(${ANI:3:3})
+exten => 2998,n,Goto(2998,440)
+exten => 2998,430,SayNumber(${ANI:3:3})
+exten => 2998,n,Goto(2998,440)
+exten => 2998,440,Set(ANI=${ANI:6})
+exten => 2998,n,Goto(2998,600)
+
+exten => 2998,490,GotoIf($["${LEN(${ANI})}"="6"]?:500)
+exten => 2998,n,SayDigits(${ANI:0:1})
+exten => 2998,n,Set(ANI=${ANI:1})
+exten => 2998,n,Goto(2998,500)
+
+exten => 2998,500,GotoIf($["${LEN(${ANI})}"="5"]?:600)
+exten => 2998,n,SayDigits(${ANI:0:1})
+exten => 2998,n,Set(ANI=${ANI:1})
+exten => 2998,n,Goto(2998,600)
+
+exten => 2998,600,GotoIf($["${LEN(${ANI})}"="4"]?:900)
+exten => 2998,n,GotoIf($["${ANI:0:1}"="0"]?:650)
+exten => 2998,n,SayDigits(${ANI:0:2})
+exten => 2998,n,Goto(2998,700)
+exten => 2998,650,SayNumber(${ANI:0:2})
+exten => 2998,n,Goto(2998,700)
+
+exten => 2998,700,GotoIf($["${ANI:2:1}"="0"]?:750)
+exten => 2998,n,SayDigits(${ANI:2})
+exten => 2998,n,Goto(2998,999)
+exten => 2998,750,SayNumber(${ANI:2})
+exten => 2998,n,Goto(2998,999)
+
+exten => 2998,900,SayDigits(${ANI})
+exten => 2998,n,Goto(2998,999)
+
+exten => 2998,999,Wait(2)
+exten => 2998,n,Goto(2998,2)
+
+; == my ==
+
+exten => 3233,1,Answer()
+exten => 3233,n,Set(TOUCH_MONITOR=${CALLERID(num)}-${EXTEN})
+exten => 3233,n,Set(CALLERID(name)=${CALLERID(num)})
+exten => 3233,n,Dial(SIP/3233,20,w)
+
+exten => 3233,n,PlayTones(info)
+exten => 3233,n,Wait(2)
+exten => 3233,n,PlayTones(info)
+exten => 3233,n,Wait(2)
+exten => 3233,n,PlayBack(telephone-number)
+exten => 3233,n,PlayBack(vm-isunavail)
+    ;exten => 3233,n,VoiceMail(3233@my-common)
+    ;exten => 3233,n,PlayBack(vm-goodbye)
+exten => 3233,n,HangUp()
+
+;= outgoing =
+
+exten => _X.,1,Answer()
+exten => _X.,n,Set(TOUCH_MONITOR=${CALLERID(num)}-${EXTEN})
+exten => _X.,n,Dial(SIP/${EXTEN}@ses,,W)
+exten => _X.,n,HangUp()
+
+; = out-of-service =
+
+exten => 2996,1,Answer()
+exten => 2996,2,PlayBack(/home/user/out-of-service)
+exten => 2996,3,HangUp()
