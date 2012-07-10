@@ -1,14 +1,14 @@
 Clone:
 =====
-* git clone git@github.com:usv299792458/configs.git 1111.configs.git
-* cd 0000.git
+* git clone git@github.com:usv299792458/configs.git 1111-configs-git
+* cd 1111-configs-git
 * <insert here 'Config' section below>
 * Edit files in this directory, then stage, then simply 'git push' / 'git pull'
 
 Setup:
 =====
-* mkdir 0000.git
-* cd 0000.git
+* mkdir 1111-configs-git
+* cd 1111-configs-git
 * git init
 * <insert here 'Config' section below>
 * <write this content to README>
