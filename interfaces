@@ -1,0 +1,37 @@
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+allow-hotplug eth0
+iface eth0 inet static
+	address 192.168.40.199
+	netmask 255.255.255.0
+	#network 192.168.40.0
+	#broadcast 192.168.40.255
+	gateway 192.168.40.254
+	# dns-* options are implemented by the resolvconf package, if installed
+	#dns-nameservers 192.168.40.101
+	#dns-search usv.ecp.ru
+
+allow-hotplug eth1
+iface eth1 inet static
+	address 93.188.208.76
+	netmask 255.255.255.192
+	#network 172.20.0.0
+	#broadcast 172.20.255.255
+	# dns-* options are implemented by the resolvconf package, if installed
+	#gateway 93.188.208.65
+	hwaddress ether 00:0D:61:CD:07:56
+	post-up echo 1 > /proc/sys/net/ipv4/ip_forward
+
+allow-hotplug eth2
+iface eth2 inet static
+	address 1.1.1.1
+	netmask 255.255.255.0
+	network 1.1.1.0
+	broadcast 1.1.1.255
+	# dns-* options are implemented by the resolvconf package, if installed
