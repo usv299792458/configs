@@ -15,6 +15,10 @@ COMMIT
 -A PREROUTING -i eth1 -p tcp -m multiport --dports 19542,10510,4662,5865,6881,6882 -j DNAT --to-destination 192.168.40.190
 -A PREROUTING -i eth1 -p udp -m multiport --dports 19546,10510,4666,5865 -j DNAT --to-destination 192.168.40.190
 -A PREROUTING -i eth1 -p tcp --dport 51413 -j DNAT --to-destination 192.168.40.190
+
+-A PREROUTING -i eth1 -p tcp --dport 3389 -j DNAT --to-destination 192.168.40.159
+-A POSTROUTING -o eth0 --dst 192.168.40.159 -j SNAT --to-source 192.168.40.199
+-A PREROUTING -i eth0 -s 192.168.40.159 -p tcp --sport 3389 -j DNAT --to-destination 92.126.116.39
 COMMIT
 
 *filter
@@ -24,10 +28,14 @@ COMMIT
 -A INPUT -i eth1 -j DROP
 -A FORWARD -i eth0 -s 192.168.40.152 -j ACCEPT
 -A FORWARD -i eth0 -s 192.168.40.190 -j ACCEPT
+-A FORWARD -i eth0 -s 192.168.40.159 -p tcp --sport 3389 -j ACCEPT
 -A FORWARD -i eth0 -j DROP
 -A FORWARD -i eth1 -m state --state RELATED,ESTABLISHED -j ACCEPT 
 -A FORWARD -i eth1 -p tcp -m multiport --dports 19542,10510,4662,5865,6881,6882 -j ACCEPT
 -A FORWARD -i eth1 -p udp -m multiport --dports 19546,10510,4666,5865 -j ACCEPT
 -A FORWARD -i eth1 -p tcp --dport 51413 -j ACCEPT
+
+-A FORWARD -i eth1 -p tcp --dport 3389 -j ACCEPT
+
 -A FORWARD -i eth1 -j REJECT --reject-with icmp-port-unreachable 
 COMMIT
