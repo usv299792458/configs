@@ -1,0 +1,14 @@
+You will need all of foo_*.dsc, foo_*.tar.gz and foo_*.diff.gz to compile the source (note: there is no .diff.gz for some packages that are native to Debian).
+
+Once you have them (How do I install a source package?, Section 7.13), if you have the dpkg-dev package installed, the following command:
+
+     dpkg-source -x foo_version-revision.dsc
+will extract the package into a directory called foo-version.
+
+If you want just to compile the package, you may cd into foo-version directory and issue the command
+
+     dpkg-buildpackage -rfakeroot -b
+to build the package (note that this also requires the fakeroot package), and then
+
+     dpkg -i ../foo_version-revision_arch.deb
+to install the newly-built package(s).
