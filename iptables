@@ -17,8 +17,8 @@ COMMIT
 -A PREROUTING -i eth1 -p tcp --dport 51413 -j DNAT --to-destination 192.168.40.190
 
 -A PREROUTING -i eth1 -p tcp --dport 3389 -j DNAT --to-destination 192.168.40.159
--A POSTROUTING -o eth0 --dst 192.168.40.159 -j SNAT --to-source 192.168.40.199
--A PREROUTING -i eth0 -s 192.168.40.159 -p tcp --sport 3389 -j DNAT --to-destination 92.126.116.39
+-A POSTROUTING -o eth0 -p tcp --dport 3389 --dst 192.168.40.159 -j SNAT --to-source 192.168.40.199
+-A PREROUTING -i eth0 -s 192.168.40.159 -p tcp --sport 3389 -j DNAT --to-destination 95.188.116.167
 COMMIT
 
 *filter
