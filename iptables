@@ -4,6 +4,14 @@
 :FORWARD ACCEPT
 :OUTPUT ACCEPT
 :POSTROUTING ACCEPT
+-A PREROUTING -s 192.168.40.159 -j RETURN
+-A PREROUTING -s 192.168.40.170 -j RETURN
+-A PREROUTING -s 192.168.40.171 -j RETURN
+-A PREROUTING -s 192.168.40.142 -j RETURN
+-A PREROUTING -d 192.168.40.159 -j RETURN
+-A PREROUTING -d 192.168.40.170 -j RETURN
+-A PREROUTING -d 192.168.40.171 -j RETURN
+-A PREROUTING -d 192.168.40.142 -j RETURN
 -A PREROUTING ! -i eth1 -j MARK --set-mark 1
 COMMIT
 
@@ -11,6 +19,9 @@ COMMIT
 :PREROUTING ACCEPT
 :POSTROUTING ACCEPT
 :OUTPUT ACCEPT
+-N goodwin_prerouting
+-N goodwin_postrouting
+
 -A POSTROUTING -o eth1 -j SNAT --to-source 93.188.208.76 
 -A PREROUTING -i eth1 -p tcp -m multiport --dports 19542,10510,4662,5865,6881,6882 -j DNAT --to-destination 192.168.40.190
 -A PREROUTING -i eth1 -p udp -m multiport --dports 19546,10510,4666,5865 -j DNAT --to-destination 192.168.40.190
@@ -19,6 +30,9 @@ COMMIT
 -A PREROUTING -i eth1 -p tcp --dport 3389 -j DNAT --to-destination 192.168.40.159
 -A POSTROUTING -o eth0 -p tcp --dport 3389 --dst 192.168.40.159 -j SNAT --to-source 192.168.40.199
 -A PREROUTING -i eth0 -s 192.168.40.159 -p tcp --sport 3389 -j DNAT --to-destination 95.188.116.167
+
+-A PREROUTING -j goodwin_prerouting
+-A POSTROUTING -j goodwin_postrouting
 COMMIT
 
 *filter
@@ -30,6 +44,10 @@ COMMIT
 -A FORWARD -i eth0 -s 192.168.40.190 -j ACCEPT
 -A FORWARD -i eth0 -s 192.168.40.177 -j ACCEPT
 -A FORWARD -i eth0 -s 192.168.40.159 -p tcp --sport 3389 -j ACCEPT
+-A FORWARD -i eth0 -s 192.168.40.159 -j ACCEPT
+-A FORWARD -i eth0 -s 192.168.40.170 -j ACCEPT
+-A FORWARD -i eth0 -s 192.168.40.171 -j ACCEPT
+-A FORWARD -i eth0 -s 192.168.40.142 -j ACCEPT
 -A FORWARD -i eth0 -j DROP
 -A FORWARD -i eth1 -m state --state RELATED,ESTABLISHED -j ACCEPT 
 -A FORWARD -i eth1 -p tcp -m multiport --dports 19542,10510,4662,5865,6881,6882 -j ACCEPT
