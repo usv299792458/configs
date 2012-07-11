@@ -1,0 +1,125 @@
+Установить время в Debian
+sudo date -s "2012-01-25 09:58:00"
+
+;Для запуска Asterisk под пользователем Asterisk:
+sudo -u asterisk asterisk -vvvcr
+
+;Запуск приложений от superuser:
+for example: Alt+F2 gksudo gedit
+
+;Команда терминала для запуска фаервола 
+sudo /etc/init.d/iptables-persistent start
+
+;Настройки фаервола. Файл rules по адресу: файловая система/etc/iptables
+;Для этого нужно установить iptables-persistent через Synaptic
+*mangle
+:PREROUTING ACCEPT
+:INPUT ACCEPT
+:FORWARD ACCEPT
+:OUTPUT ACCEPT
+:POSTROUTING ACCEPT
+-A OUTPUT -d 192.168.8.4 -j RETURN
+-A OUTPUT -d 192.168.40.0/24 -j RETURN
+-A OUTPUT -p tcp --dport 80 -j MARK --set-mark 1
+-A OUTPUT -p tcp --dport 443 -j MARK --set-mark 1
+-A OUTPUT -p udp --dport 53 -j MARK --set-mark 1
+-A OUTPUT -p tcp -m helper --helper ftp -j MARK --set-mark 1
+-A OUTPUT -p tcp --dport 21 -j MARK --set-mark 1
+COMMIT
+
+sudo usermod -a -G dialout user  -запускать minicom без sudo требуется перезагрузка
+;Для связи со станцией через COM-порт использовать программу minicom
+;устанавливается через Synaptic. Первый запуск программы через
+[sudo] minicom -s
+;настраивается порт, параметры запуска: для связи со станцией 
+;обнуляется строка инициализации и строка выхода
+
+; install asterisk
+; install dahdi-source
+; install linux-headers-2.6.32-5-686
+; install libasterisk-agi-perl
+sudo aptitude install asterisk dahdi-source linux-headers-2.6.32-5-686 libasterisk-agi-perl
+sudo module-assistant a-i dahdi
+перезагрузиться (sudo shutdown now -r)
+sudo dahdi_genconf
+удалить crc4, loadzone..., defaultzone... из /etc/dahdi/system.conf
+перезагрузиться
+
+править /etc/asterisk/chan_dahdi.conf
+[channels]
+language=ru
+signalling = pri_cpe
+switchtype = euroisdn
+context = usv
+channel => 1-15,17-31
+
+sudo /etc/init.d/asterisk restart
+
+править /etc/asterisk/extensions.conf
+
+[usv]
+
+exten => 2011,1,Answer()
+exten => 2011,n,AGI(/home/user/agi-test.agi)
+exten => 2011,n,Hangup()
+
+; proverka svoej pochty
+exten => 3000,1,Answer()
+exten => 3000,n,VoicemailMain(${CALLERID(num)}@usv)
+exten => 3000,n,Hangup()
+
+; proverka s drugogo telefona
+exten => 4000,1,Answer()
+exten => 4000,n,VoiceMailMain(@usv)
+exten => 4000,n,HangUp()
+
+cp /usr/share/doc/asterisk-config/examples/agi-test.agi .
+sudo chmod o+x agi-test.agi
+
+nano agi-test.agi
+- vsyo steret
+#!/usr/bin/perl -w
+use strict;
+
+$|=1;
+
+use Asterisk::AGI;
+
+my $AGI = new Asterisk::AGI;
+my %input = $AGI->ReadParse();
+
+my $mbox;
+my ($chan) = $input{channel} =~ /^DAHDI\/(\d+)-\d+$/;
+
+$mbox = 7717 if $chan == 1;
+$mbox = 7716 if $chan == 2;
+
+$AGI->exec( 'Voicemail', "$mbox\@usv" );
+$AGI->exec( 'Playback', 'vm-goodbye');
+
+
+править /etc/asterisk/voicemail.conf
+[usv]
+3233 => 1,,,,envelope=no|saycid=no
+6789 => 1,
+3406 => 1,
+
+reload
+quit
+
+;Запись приветствия для интерактивного диалплана
+; '#' для завершения записи
+;exten => 2000,1,Record(/tmp/my.wav)  - где my-имя файла
+;sudo chown user: /tmp/my.wav - передает права на файл my.wav пользователю user
+;переместить файл my.wav из /tmp/my.wav в /home/user/my командой mv /tmp/my1.wav /home/user/
+;sox --no-clobber <from.wav> -r 8000 -c 1 -t ul <to.ulaw> - перекодирует файл <from.wav> в <to.ulaw>
+;exten => 2000,1,Background(/home/user/my)
+;exten => 2000,1,Playback(/home/user/my)
+;konvertac. zvukov
+
+;терминал w2ktt
+;Cancel - F1 - ESC+x
+;Execute - F3 - ESC+e
+;Next Page - F7 - ESC+n
+;Previous Page - F8 - ESC+p
+
