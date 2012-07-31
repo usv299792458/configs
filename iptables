@@ -22,7 +22,7 @@ COMMIT
 -N goodwin_prerouting
 -N goodwin_postrouting
 
--A POSTROUTING -o eth1 -j SNAT --to-source 93.188.208.76
+-A POSTROUTING -o eth1 -j SNAT --to-source 192.168.0.200
 
 -A PREROUTING -j goodwin_prerouting
 -A POSTROUTING -j goodwin_postrouting
