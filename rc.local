@@ -15,7 +15,7 @@ sudo -u nobody perl /var/local/cdr_get_3.pl &
 sudo -u nobody perl /var/local/cdr_get_5.pl &
 
 ip rule add fwmark 1 table inet.out
-ip route add default via 93.188.208.65 dev eth1 table inet.out
+ip route add default via 192.168.0.1 dev eth1 table inet.out
 ip route flush cache
 
 exit 0
