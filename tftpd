@@ -1,0 +1,2 @@
+install tftpd-hpa
+put files to /srv/tftp/
