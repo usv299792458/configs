@@ -1,3 +1,5 @@
+install ntp
+
 -server 0.debian.pool.ntp.org iburst
 -server 1.debian.pool.ntp.org iburst
 -server 2.debian.pool.ntp.org iburst
