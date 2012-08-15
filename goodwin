@@ -16,14 +16,3 @@ else
   sudo iptables -t nat -A goodwin_prerouting  -s $1 -d 192.168.40.199 -p tcp -m multiport --sports 1501,1502 -j DNAT --to-destination 192.168.40.171
 fi
 
-#  *nat
-#  :goodwin_prerouting ACCEPT
-#  :goodwin_postrouting ACCEPT
-#  :OUTPUT ACCEPT
-#  -N goodwin_prerouting
-#  -N goodwin_postrouting
-#  # ...
-#  -A goodwin_prerouting -j goodwin_prerouting                                           
-#  -A goodwin_postrouting -j goodwin_postrouting
-#  COMMIT
-
