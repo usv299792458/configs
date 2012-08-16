@@ -1,0 +1,1 @@
+sudo sh -c 'echo 201 inet.out >> /etc/iproute2/rt_tables'

@@ -1,0 +1,3 @@
+sudo EDITOR=nano visudo
+Add to the very end of file:
+user    ALL=(ALL:ALL) NOPASSWD: ALL
