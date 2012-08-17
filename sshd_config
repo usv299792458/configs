@@ -84,3 +84,7 @@ Subsystem sftp /usr/lib/openssh/sftp-server
 # PAM authentication, then enable this but set PasswordAuthentication
 # and ChallengeResponseAuthentication to 'no'.
 UsePAM yes
+# If not disabled, SSHD will try to do a slow reverse lookup
+# of the IP address of the client causing for an unnecessary
+# delay during authentication.
+UseDNS no
