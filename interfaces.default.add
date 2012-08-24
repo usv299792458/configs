@@ -1,0 +1,6 @@
+TODO: compare it with what is right after system installation
+allow-hotplug eth0
+iface eth0 inet static
+ address 192.168.40.199
+ netmask 255.255.255.0
+ gateway 192.168.40.254
