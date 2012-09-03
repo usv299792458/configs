@@ -30,7 +30,6 @@ Config:
 * git config alias.lg 'log -p'
 * git config alias.co 'checkout --' # 'git co file' - discard changes in working directory
 * git config alias.wdiff 'diff --color-words'
-* echo export LESS=R >> ~/.bashrc # enable mouse scroll in pager; drawback: launches pager even on small output
 * git config alias.sdiff 'diff --staged'
 * git config alias.swdiff 'diff --staged --color-words'
 * git config alias.adiff 'diff HEAD'
