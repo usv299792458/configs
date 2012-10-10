@@ -58,6 +58,7 @@ exten => 2999,n,HangUp()
 exten => 2997,1,NoOp(<<Ringing>>)
 exten => 2997,n,Set(ANI=${CALLERID(num)})             ;Get Number A
 exten => 2997,n,GotoIF($["${ANI}"!="${FILTER(0-9,${ANI})}"]?999)   ;Check if Calling number is correct
+exten => 2997,n,GotoIF($["${ANI}"="3055"]?999) ; ACO calls must not go to voicemail
 exten => 2997,n,NoOp(<<Number A = ${ANI}>>)
 exten => 2997,n,Set(RDN=${CUT(CUT(SIP_HEADER(Diversion),@,1),:,2)})      ;Get Redirected Dialed Number
 exten => 2997,n,GotoIf($["${RDN}"=""]?888)                               ;If No, Goto Inbox
