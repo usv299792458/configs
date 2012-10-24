@@ -4,5 +4,5 @@ install ntp
 -server 1.debian.pool.ntp.org iburst
 -server 2.debian.pool.ntp.org iburst
 -server 3.debian.pool.ntp.org iburst
-+server 192.168.40.183 iburst
++server 192.168.40.183
 
