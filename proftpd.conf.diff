@@ -1,0 +1,23 @@
+-TimeoutNoTransfer		600
+-TimeoutStalled			600
++TimeoutNoTransfer		1200
++TimeoutStalled			1200
+
+-# <Anonymous ~ftp>
+-#   User				ftp
+-#   Group				nogroup
++ <Anonymous ~ftp>
++   User				nobody
++   Group				nogroup
+
+# FIXME - is this necessary ? :
+-#   UserAlias			anonymous ftp
++   UserAlias			ftp nobody
+
+# FIXME - is this necessary ? :
+-#   RequireValidShell		off
++   RequireValidShell		off
+
+-# </Anonymous>
++ </Anonymous>
+
