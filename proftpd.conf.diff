@@ -10,14 +10,12 @@
 +   User				nobody
 +   Group				nogroup
 
-# FIXME - is this necessary ? :
 -#   UserAlias			anonymous ftp
 +   UserAlias			ftp nobody
 
-# FIXME - is this necessary ? :
--#   RequireValidShell		off
-+   RequireValidShell		off
-
 -# </Anonymous>
 + </Anonymous>
+
+# Also, run this command: passwd ftp
+# Log in as user "ftp"
 
