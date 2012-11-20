@@ -1,4 +1,4 @@
 +        GOODWIN_IP=$(goodwin)
          iptables-restore </etc/iptables/rules
-+        goodwin $GOODWIN_IP > /dev/null
++        goodwin $GOODWIN_IP
 
