@@ -1,4 +1,5 @@
 #!/bin/bash
+# Put it to /usr/local/bin/ and make it executable.
 if [ "$1" == "" ]; then
   sudo iptables -t nat -S | perl -lne 'print $1 if m#^-A goodwin_prerouting -s 192.168.40.170/32 -j DNAT --to-destination (\d+\.\d+\.\d+\.\d+)\s*$#'
 else
