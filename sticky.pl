@@ -23,7 +23,7 @@ while(<DOC>) {
 
   my $d = $now->subtract_datetime( $date );
   if ( $d->is_positive ) {
-    for ( qw/usv-10 usv-6 usv11 usv-15/ ) {
+    for ( qw/komp usv-6 usv11 usv-15/ ) {
       system "echo '$task\nАВТОР: $who' | smbclient -N -M $_";
     }
   }
