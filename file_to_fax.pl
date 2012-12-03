@@ -1,6 +1,8 @@
 BEGIN { $^W = 1 }
 use strict;
 
+# NOTE: "hylafax-server" package is necessary for this program to work.
+
 mkdir '/file_to_fax'
   or $! eq 'File exists' ||
     die 'ERROR: ustanovite konstantu DATA_DISK v pravil\'noe znachenie';
