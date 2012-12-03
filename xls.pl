@@ -21,7 +21,7 @@ my $fmt = Spreadsheet::ParseExcel::FmtDefault->new;
           my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime;
           $year += 1900;
           $mon+=1;
-          for ( qw/usv-10 usv-6 usv11 usv-15/ ) {
+          for ( qw/komp usv-6 usv11 usv-15/ ) {
             system "echo '$hour:$min:$sec $mday-$mon-$year НЕ ОТВЕЧАЕТ:\n$ips' | smbclient -N -M $_";
           }
     }
