@@ -1,3 +1,6 @@
+# ATTENTION !!!
+# Do not edit .doc file with MS Word. Only openoffice can be used.
+
 BEGIN { $^W = 1 }
 use strict;
 
