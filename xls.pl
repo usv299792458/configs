@@ -1,3 +1,5 @@
+# NOTE: aptitude install libnet-ping-external-perl libspreadsheet-parseexcel-perl smbclient
+
 BEGIN { $^W = 1 }
 use strict;
 

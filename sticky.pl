@@ -1,7 +1,7 @@
 # ATTENTION !!!
 # Do not edit .doc file with MS Word. Only openoffice can be used.
 
-# NOTE: aptitude install catdoc libdatetime-format-natural-perl
+# NOTE: aptitude install catdoc libdatetime-format-natural-perl smbclient
 
 BEGIN { $^W = 1 }
 use strict;
