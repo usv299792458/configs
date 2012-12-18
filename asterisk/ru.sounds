@@ -1,0 +1,2 @@
+sudo cp -r ru/ /usr/share/asterisk/sounds/
+sudo chown -R asterisk: /usr/share/asterisk/sounds/ru/
