@@ -1,1 +1,12 @@
 install isc-dhcp-server
+
+option option-242 code 242 = text;
+host ip-phone {
+  hardware ethernet 00:07:3b:b6:a3:7f;
+  option option-242 "sipsrvraddr=192.168.40.199,httpsrvr=192.168.40.199";
+  fixed-address 192.168.40.157;
+}
+
+option ip_phones code 176 = text;
+MCIPADD=x.x.x.x,TFTPSRVR=y.y.y.y
+
