@@ -1,4 +1,5 @@
 */10 * * * * perl ~/refresh_mwi.pl
+*/10 * * * * perl ~/check_my_voicemail.pl
 */10 * * * * perl ~/sticky.pl
 */2 * * * * perl ~/xls.pl
 */1 * * * * perl ~/file_to_fax.pl
