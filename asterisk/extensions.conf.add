@@ -148,8 +148,8 @@ exten => 3233,n,PlayTones(info)
 exten => 3233,n,Wait(2)
 exten => 3233,n,PlayBack(telephone-number)
 exten => 3233,n,PlayBack(vm-isunavail)
-    ;exten => 3233,n,VoiceMail(3233@my-common)
-    ;exten => 3233,n,PlayBack(vm-goodbye)
+exten => 3233,n,VoiceMail(3233@my-common)
+exten => 3233,n,PlayBack(vm-goodbye)
 exten => 3233,n,HangUp()
 
 ;= outgoing =
