@@ -3,3 +3,4 @@
 */10 * * * * perl ~/sticky.pl
 */2 * * * * perl ~/xls.pl
 */1 * * * * perl ~/file_to_fax.pl
+*/10 * * * * ~/dup_ip_detect.sh
