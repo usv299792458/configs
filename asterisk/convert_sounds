@@ -1,2 +1,4 @@
+sox <from.wav> -r 8000 -c 1 <to.gsm>
+
 sox --no-clobber -t ul <from.ulaw> <to.wav>
 sox --no-clobber <from.wav> -r 8000 -c 1 -t ul <to.ulaw>
