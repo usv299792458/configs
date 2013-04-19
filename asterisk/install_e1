@@ -106,20 +106,3 @@ $AGI->exec( 'Playback', 'vm-goodbye');
 
 reload
 quit
-
-;Запись приветствия для интерактивного диалплана
-; '#' для завершения записи
-;exten => 2000,1,Record(/tmp/my.wav)  - где my-имя файла
-;sudo chown user: /tmp/my.wav - передает права на файл my.wav пользователю user
-;переместить файл my.wav из /tmp/my.wav в /home/user/my командой mv /tmp/my1.wav /home/user/
-;sox --no-clobber <from.wav> -r 8000 -c 1 -t ul <to.ulaw> - перекодирует файл <from.wav> в <to.ulaw>
-;exten => 2000,1,Background(/home/user/my)
-;exten => 2000,1,Playback(/home/user/my)
-;konvertac. zvukov
-
-;терминал w2ktt
-;Cancel - F1 - ESC+x
-;Execute - F3 - ESC+e
-;Next Page - F7 - ESC+n
-;Previous Page - F8 - ESC+p
-
