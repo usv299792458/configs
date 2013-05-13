@@ -1,0 +1,101 @@
+--- /etc/samba/smb.conf	2013-05-08 19:02:16.000000000 +0800
++++ smb.conf	2013-05-13 21:02:34.000000000 +0800
+@@ -31,18 +31,23 @@
+ #======================= Global Settings =======================
+ 
+ [global]
++dos charset = 866
++unix charset = UTF8
++display charset = UTF8
+ 
++veto files = /lost+found/
++#disable netbios = yes
+ ## Browsing/Identification ###
+ 
+ # Change this to the workgroup/NT-domain name your Samba server will part of
+-   workgroup = WORKGROUP
++   workgroup = USVGROUP
+ 
+ # server string is the equivalent of the NT Description field
+    server string = %h server
+ 
+ # Windows Internet Name Serving Support Section:
+ # WINS Support - Tells the NMBD component of Samba to enable its WINS Server
+-#   wins support = no
++   wins support = no
+ 
+ # WINS Server - Tells the NMBD components of Samba to be a WINS Client
+ # Note: Samba can be either a WINS Server, or a WINS Client, but NOT both
+@@ -60,7 +65,7 @@
+ # The specific set of interfaces / networks to bind to
+ # This can be either the interface name or an IP address/netmask;
+ # interface names are normally preferred
+-;   interfaces = 127.0.0.0/8 eth0
++   interfaces = 127.0.0.0/8 eth0
+ 
+ # Only bind to the named interfaces and/or networks; you must use the
+ # 'interfaces' option above to use this.
+@@ -99,7 +104,8 @@
+ # in this server for every user accessing the server. See
+ # /usr/share/doc/samba-doc/htmldocs/Samba3-HOWTO/ServerType.html
+ # in the samba-doc package for details.
+-#   security = user
++   security = share
++#   guest account = nobody
+ 
+ # You may wish to use password encryption.  See the section on
+ # 'encrypt passwords' in the smb.conf(5) manpage before enabling.
+@@ -263,6 +269,7 @@
+ ;   path = /home/samba/netlogon
+ ;   guest ok = yes
+ ;   read only = yes
++;   share modes = no
+ 
+ # Un-comment the following and create the profiles directory to store
+ # users profiles (see the "logon path" option above)
+@@ -323,3 +330,45 @@
+ ;   preexec = /bin/mount /cdrom
+ ;   postexec = /bin/umount /cdrom
+ 
++[d]
++# chmod o+w /var/local/
++path = /var/local/
++guest ok = yes
++writable = yes
++allow hosts = 192.168.8.4 192.168.40.190
++
++[ftp]
++# chmod 777 /home/ftp/
++# chown ftp:nogroup /home/ftp/
++path = /home/ftp/
++guest ok = yes
++writable = yes
++allow hosts = 192.168.40.152 192.168.40.190 192.168.40.159 192.168.40.172 192.168.40.176 192.168.40.175 192.168.40.135
++
++[tftp]
++# chown nobody: /home/tftp/
++path = /home/tftp/
++guest ok = yes
++writable = yes
++
++[doc]
++# chown nobody: /home/doc/
++path = /home/doc/
++guest ok = yes
++writable = yes
++allow hosts = 192.168.40.152 192.168.40.190 192.168.40.159 192.168.8.4 192.168.40.175
++
++[http]
++# chown nobody: /var/www/
++path = /var/www/
++guest ok = yes
++writable = yes
++
++[file_to_fax]
++# chmod 777 /file_to_fax/
++path = /file_to_fax/
++guest ok = yes
++writable = yes
++allow hosts = 192.168.8.4 192.168.40.190
++create mask = 0766
++
