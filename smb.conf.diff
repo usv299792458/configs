@@ -65,8 +65,7 @@
 +allow hosts = 192.168.8.4 192.168.40.190
 +
 +[ftp]
-+# chmod 777 /home/ftp/
-+# chown ftp:nogroup /home/ftp/
++# chmod 777 /home/ftp/ # FIXME: is this needed - ?
 +path = /home/ftp/
 +guest ok = yes
 +writable = yes
