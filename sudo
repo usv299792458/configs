@@ -5,3 +5,4 @@ user    ALL=(ALL) NOPASSWD: ALL
 
 Alternative way to never ask password (add to the very end of /etc/sudoers):
 Defaults:user timestamp_timeout=-1
+# ("0" = always ask)
