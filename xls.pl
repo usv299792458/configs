@@ -12,7 +12,7 @@ my $fmt = Spreadsheet::ParseExcel::FmtDefault->new;
     my $ips;
     my $w = Spreadsheet::ParseExcel::Workbook->Parse( '/home/doc/IP.xls', $fmt )->{Worksheet}[0];
     for ( my $i = $$w{MinRow}+1; defined $$w{MaxRow} && $i <= $$w{MaxRow}; $i++ ) {
-      if ( $$w{Cells}[$i][8] ) {
+      if ( $$w{Cells}[$i][8] && $$w{Cells}[$i][8]->Value ) {
         my $ip = join '.', map { ( $_->Value=~/(\d+)/ )[0] } @{$$w{Cells}[$i]}[0..3];
         unless ( ping(host => $ip, count => 3, timeout => 2) ) {
           $ips.= $ip . ' ' . Encode::encode( 'utf8', ${$$w{Cells}[$i]}[4]->Value ) . "\n";
