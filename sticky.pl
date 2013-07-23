@@ -3,6 +3,8 @@
 
 # NOTE: aptitude install catdoc libdatetime-format-natural-perl smbclient
 
+# NOTE: on windows do: Мой компьютер - управление - Службы и приложения - службы - Служба сообщений - свойства - тип запуска авто, пуск, применить , ок
+
 BEGIN { $^W = 1 }
 use strict;
 
