@@ -7,21 +7,11 @@ exten => 2993,n,Wait(1)
 exten => 2993,n,SayUnixTime(,,kM)
 exten => 2993,n,HangUp()
 
-;========== Справочник ================
+;========== Морзе ================
 
-;exten => 2995,1,Answer()
-;exten => 2995,n,Background(pbdirectory/welcome-to-phonebook)
-;exten => 2995,n,SayNumber(9)
-;exten => 2995,n,SayNumber(42)
-;exten => 2995,n,SayNumber(0)
-;exten => 2995,n,SayNumber(8)
-;exten => 2995,n,PlayBack(vm-goodbye)
-;exten => 2995,n,HangUp()
-
-exten => 2994,1,AGI(/home/user/conference.pl)
-exten => 2994,n,Answer()
-exten => 2994,n,ConfBridge(1234,s)
-;exten => 2994,n,Hangup()
+exten => 2994,1,Answer()
+exten => 2994,n,AGI(/home/user/morse.pl)
+exten => 2994,n,Hangup()
 
 ;======== ReceiveFAX ============
 
