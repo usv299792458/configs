@@ -10,8 +10,8 @@ exten => 2993,n,HangUp()
 ;========== Морзе ================
 
 exten => 2994,1,Answer()
-exten => 2994,n,AGI(/home/user/morse.pl)
-exten => 2994,n,Hangup()
+same => n,AGI(/home/user/morse.pl)
+same => n,Hangup()
 
 ;======== ReceiveFAX ============
 
