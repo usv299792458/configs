@@ -10,6 +10,7 @@ exten => 2993,n,HangUp()
 ;========== Морзе ================
 
 exten => 2994,1,Answer()
+same => n,Set(MORSEDITLEN=40)
 same => n,AGI(/home/user/morse.pl)
 same => n,Hangup()
 
