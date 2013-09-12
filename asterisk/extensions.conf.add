@@ -7,10 +7,14 @@ exten => 2993,n,Wait(1)
 exten => 2993,n,SayUnixTime(,,kM)
 exten => 2993,n,HangUp()
 
-;========== Морзе ================
+;========== Conference ================
+
+#exten => 2994,1,AGI(/home/user/conference.pl)
+#exten => 2994,n,Answer()
+#exten => 2994,n,ConfBridge(1234,s)
 
 exten => 2994,1,Answer()
-same => n,Set(MORSEDITLEN=40)
+same => n,Set(MORSEDITLEN=60)
 same => n,AGI(/home/user/morse.pl)
 same => n,Hangup()
 
@@ -41,8 +45,9 @@ exten => 1,n,Hangup()
 ;========== Проверка почты не со своего телефона ============
 
 exten => 2999,1,Answer()
-exten => 2999,n,VoiceMailMain(@my-common)
-exten => 2999,n,HangUp()
+#exten => 2999,n,VoiceMailMain(@my-common)
+same => n,AGI(/home/user/tts-ping.agi)
+same => n,Hangup()
 
 ;========== Проверка почты со своего телефона + cover ==============================
 
