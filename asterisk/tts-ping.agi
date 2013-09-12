@@ -1,0 +1,76 @@
+#!/usr/bin/perl -w
+#
+# AGI Script that prompts the user for an ip address, pings the ip, and reports back to the user.
+#
+# Requires the Asterisk::AGI and Net::Ping::External perl modules
+#
+# Written by: James Golovich <james@gnuinter.net>
+#
+#
+use strict;
+
+use Asterisk::AGI;
+use Net::Ping::External qw(ping);
+use Digest::MD5 qw(md5_hex);
+my $AGI = new Asterisk::AGI;
+
+  my $sounddir = "/var/lib/asterisk/sounds/tts";
+
+sub my_festival ($) {
+  my $hash = md5_hex($_[0]);
+  my $wavefile = "$sounddir/"."tts-$hash.wav";
+
+  unless (-f $wavefile) {
+open X,'>>/tmp/yyy';
+    my $execf="echo '$_[0]' | text2wave -eval '(voice_msu_ru_nsh_clunits)' -F 8000 -scale 1.5 -o $wavefile";
+print X $execf,"\n";
+close X;
+    system($execf);
+  }
+  $wavefile =~ s/.wav$//;
+
+  $AGI->exec('Playback', $wavefile);
+}
+
+
+my_festival 'Введите ай пи адрес для пингования';
+
+my $finished = 0;
+
+my $ipaddr = '';
+my $x = 0;
+while (!$finished) {
+	my $input = chr($AGI->wait_for_digit('5000'));
+	if ($input =~ /^[0-9\*\#]$/) {
+		if ($input =~ /^[\*\#]$/) {
+			$x++;
+			if ($x > 3) {
+				$finished = 1;
+			} else {
+				$ipaddr .= '.';
+			}
+		
+		} else {
+			$ipaddr .= $input;
+		}
+	} else {
+			#must have timed out
+			$finished = 1;
+	}
+
+	if ( length($ipaddr) > 14) {
+		$finished = 1;
+	}
+}
+
+	if ($ipaddr !~ /\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/) {
+		my_festival "Неверный адрес: $ipaddr";
+		exit 0;
+	}
+
+	my_festival 'Пожалуйста подождите';
+	if (ping(host => "$ipaddr", timeout => 2)) {
+		my_festival 'узел доступен';
+	} else {
+		my_festival 'узел недоступен';
+	}
