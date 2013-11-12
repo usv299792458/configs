@@ -77,7 +77,7 @@ exten => 2997,n,PlayBack(vm-isunavail)
 exten => 2997,n,Congestion()                                               ;If No, Congest
 exten => 2997,n,Hangup()
 ;
-exten => 2997,900,VoicemailMain(${ANI}@my-common)                      ;Goto to VM Inbox
+exten => 2997,900,VoicemailMain(${ANI}@my-common,s)                      ;Goto to VM Inbox
 exten => 2997,n,Hangup()
 ;
 exten => 2997,999,Hangup()
