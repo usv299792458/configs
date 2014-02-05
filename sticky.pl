@@ -1,9 +1,7 @@
-# TODO: rewrite this script without libdatetime-format-natural-perl, but taking it as example
-
 # ATTENTION !!!
 # Do not edit .doc file with MS Word. Only openoffice can be used.
 
-# NOTE: aptitude install catdoc smbclient
+# NOTE: aptitude install catdoc libdatetime-format-natural-perl smbclient
 
 # NOTE: on windows do: Мой компьютер - управление - Службы и приложения - службы - Служба сообщений - свойства - тип запуска авто, пуск, применить , ок
 
