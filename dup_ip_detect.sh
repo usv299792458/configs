@@ -9,7 +9,7 @@ for i in {1..254}; do
   fi
 done
 if [ -n "$IPS" ]; then
-  for j in komp usv-6 usv11 usv-15; do
+  for j in debian usv-6 usv11 usv-15; do
     echo -e "$(date +'%F %R')\n\nDUPLICATE IP(S): $IPS" | smbclient -N -M $j > /dev/null
   done
 fi
