@@ -1,0 +1,48 @@
+#!/usr/bin/perl -w
+use strict;
+
+use Encode ();
+
+use Asterisk::AGI;
+my $AGI = new Asterisk::AGI;
+
+use Digest::MD5 qw(md5_hex);
+my $sounddir = "/var/lib/asterisk/sounds/tts";
+sub my_festival ($) {
+  my $hash = md5_hex($_[0]);
+  my $wavefile = "$sounddir/"."tts-$hash.wav";
+
+  unless (-f $wavefile) {
+    my $execf="echo '$_[0]' | text2wave -eval '(voice_msu_ru_nsh_clunits)' -F 8000 -scale 1.5 -o $wavefile";
+    system($execf);
+  }
+  $wavefile =~ s/.wav$//;
+
+  $AGI->exec('Playback', $wavefile);
+}
+
+
+use LWP::Simple;
+my $doc = Encode::encode('utf8',get 'http://www.yandex.ru');
+my $s;
+$doc = $1 if $doc =~ m!<div class="b-weather">(.*)!;
+
+$s = $1 if $doc =~ m!<div class="b-content-item__title">(.+?)</div>!;
+$s .= $1 if $doc =~ m!<div class="b-weather__info">(.+?)</div>!;
+$s .= $1 if $doc =~ m!<div class="b-weather__codes">(.+?)</div>!;
+$s =~ s!<a href="http://pogoda.yandex.ru/krasnoyarsk/"class="b-link">Погода</a><a href="http://pogoda.yandex.ru/krasnoyarsk/"title="!!;
+$s =~ s!"class="b-weather__icon_link">!!;
+$s =~ s!<a href="http://pogoda.yandex.ru/krasnoyarsk/"class="b-link_black_novisit">! - - !g;
+$s =~ s!<a href="http://pogoda.yandex.ru/krasnoyarsk/details/#tomorrow"class="b-link b-weather__codes__link b-weather__codes__link_code1">! - - - - !;
+$s =~ s!<i[^>]+></i>!!;
+$s =~ s!</a>!!g;
+$s =~ s/\&nbsp\;/ /g;
+$s =~ s/,\&#32\;//;
+$s =~ s/°C/градусов/;
+$s =~ s/\+/плюс /g;
+
+my %input = $AGI->ReadParse();
+exit if $input{type} eq 'SIP' && $input{callerid} !~ /(?:3233|2000|4949)$/;
+
+my_festival $s;
+
