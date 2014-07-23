@@ -1,0 +1,8 @@
+Channel: SIP/ses/4208
+Callerid: Signal k.28
+MaxRetries: 10
+RetryTime: 5
+WaitTime: 20
+Context: signalka
+Extension: 10
+Archive: Yes

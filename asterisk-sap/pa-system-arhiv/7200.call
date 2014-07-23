@@ -1,0 +1,8 @@
+Channel: SIP/ses/7200
+Callerid: 911
+MaxRetries: 0
+RetryTime: 5
+WaitTime: 10
+Context: pa-call-file
+Extension: 10
+Archive: yes

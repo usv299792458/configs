@@ -1,0 +1,9 @@
+Channel: SIP/ses/4567
+Callerid: 911
+MaxRetries: 10
+RetryTime: 5
+WaitTime: 20
+Context: pa-call-file
+Extension: 10
+Archive: Yes
+Set: NUMBER=4567

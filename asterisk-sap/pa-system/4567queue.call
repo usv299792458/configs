@@ -1,0 +1,9 @@
+Channel: SIP/ses/4567
+Callerid: 4451
+MaxRetries: 2
+RetryTime: 5
+WaitTime: 20
+Context: pa-queue-noanswer
+Extension: 11
+Archive: Yes
+Set: NUMBER=4567

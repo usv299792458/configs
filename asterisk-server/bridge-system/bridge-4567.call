@@ -1,0 +1,10 @@
+Channel: DAHDI/g0/0784
+Callerid: 5020
+MaxRetries: 2
+RetryTime: 5
+WaitTime: 20
+Context: bridge-system
+Extension: 100
+;Archive: Yes
+;Set: NUMBER=4567
+

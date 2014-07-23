@@ -1,0 +1,4 @@
+Channel: SIP/ses/4567
+Callerid: 2988
+Context: ringback
+Extension: 12
