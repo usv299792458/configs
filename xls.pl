@@ -23,8 +23,8 @@ my $fmt = Spreadsheet::ParseExcel::FmtDefault->new;
           my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime;
           $year += 1900;
           $mon+=1;
-          for ( qw/debian usv-6 usv11 usv-15 usv-30/ ) {
-            system "echo '$hour:$min:$sec $mday-$mon-$year НЕ ОТВЕЧАЕТ:\n$ips' | smbclient -N -M $_";
+          for ( qw/192.168.40.190 192.168.40.152 192.168.40.159 192.168.40.175/ ) {
+            system "echo '$hour:$min:$sec $mday-$mon-$year НЕ ОТВЕЧАЕТ:\n$ips' | smbclient -N -M debian -I $_";
           }
     }
 
