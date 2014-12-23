@@ -1,10 +1,3 @@
-# ATTENTION !!!
-# Do not edit .doc file with MS Word. Only openoffice can be used.
-
-# NOTE: aptitude install catdoc libdatetime-format-natural-perl smbclient
-
-# NOTE: on windows do: Мой компьютер - управление - Службы и приложения - службы - Служба сообщений - свойства - тип запуска авто, пуск, применить , ок
-
 BEGIN { $^W = 1 }
 use strict;
 
@@ -30,8 +23,8 @@ while(<DOC>) {
 
   my $d = $now->subtract_datetime( $date );
   if ( $d->is_positive ) {
-    for ( qw/debian usv-6 usv11 usv-15/ ) {
-      system "echo '$task\nАВТОР: $who' | smbclient -N -M $_";
+    for ( [ '192.168.40.190', 'debian' ], [ '192.168.40.152', 'usv-6' ], [ '192.168.40.159', 'usv11' ], [ '192.168.40.175', 'usv-15' ] ) {
+      system "echo '$task\nАВТОР: $who' | smbclient -N -M ${$_}[1] -I ${$_}[0]";
     }
   }
 }
