@@ -3,7 +3,7 @@
 IPS=""
 for i in {1..254}; do
   IP=192.168.40.$i
-  sudo arping -d -i eth0 -c 1 $IP &>/dev/null
+  sudo arping -D -I eth0 -c 1 $IP &>/dev/null
   if [ $? -ne 0 ]; then
     IPS="$IPS $IP"
   fi
